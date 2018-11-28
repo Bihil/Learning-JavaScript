@@ -18,5 +18,41 @@ function loadNames(e) {
  if (origin !== '') {
   url += `region=${origin}&`;
  }
- console.log(url);
+ // Read the genre and append to the url
+ if (genre !== '') {
+  url += `gender=${genre}&`;
+ }
+ // Read the amunt and append to the url
+ if (amount !== '') {
+  url += `amount=${amount}&`;
+ }
+
+ // Ajax call
+ const xhr = new XMLHttpRequest();
+
+ // Open the connection
+ xhr.open('GET', url, true);
+
+ // Execute the function
+ xhr.onload = function () {
+  if (this.status === 200) {
+   const names = JSON.parse(this.responseText);
+
+   // INsert into the HTML
+
+   let html = '<h2>Generated Names</h2>';
+   html += '<ul class="list">';
+   names.forEach(function (name) {
+    html += `
+     <li>${name.name}</li>
+    `;
+   });
+   html += '</ul>';
+
+   document.querySelector('#result').innerHTML = html;
+  }
+ };
+
+ // Send the request
+ xhr.send();
 }
